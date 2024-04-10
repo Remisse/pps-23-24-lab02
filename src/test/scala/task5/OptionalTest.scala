@@ -37,3 +37,21 @@ class OptionalTest:
     val result = Optional.map(nonEmpty, _ + 1)
     assertEquals(1, Optional.orElse(result, 1))
   }
+
+  @Test def filterShouldKeepValueWhenConditionIsMet(): Unit = {
+    val nonEmpty = Optional.Maybe(0)
+    val result = Optional.filter(nonEmpty, _ == 0)
+    assertEquals(nonEmpty, result)
+  }
+
+  @Test def filterShouldReturnEmptyWhenConditionIsNotMet(): Unit = {
+    val notEmpty = Optional.Maybe(1)
+    val result = Optional.filter(notEmpty, _ == 0)
+    assertTrue(Optional.isEmpty(result))
+  }
+
+  @Test def filterShouldReturnEmptyWhenGivenEmptyOptional(): Unit = {
+    val empty = Optional.Empty()
+    val result = Optional.filter(empty, _ => true)
+    assertTrue(Optional.isEmpty(result))
+  }
